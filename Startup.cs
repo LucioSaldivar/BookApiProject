@@ -24,13 +24,13 @@ namespace BookApiProject
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc()
-                    .AddJsonOptions(o => o.SerializerSettings.ReferenceLoopHandling =
-                                    Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+            services.AddMvc();
 
             var connectionString = Configuration["connectionStrings:bookDbConnectionString"];
             services.AddDbContext<BookDbContext>(c => c.UseSqlServer(connectionString));
 
+            services.AddScoped<ICountryRepository, CountryRepository>();
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -46,7 +46,7 @@ namespace BookApiProject
             //    await context.Response.WriteAsync("Hello World!");
             //});
 
-            context.SeedDataContext();
+            //context.SeedDataContext();
 
             app.UseMvc();
         }
